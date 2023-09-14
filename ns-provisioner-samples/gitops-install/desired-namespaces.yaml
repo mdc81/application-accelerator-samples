@@ -3,5 +3,8 @@
 namespaces:
 #! The only required parameter is the name of the namespace. All additional values provided here 
 #! for a namespace will be available under data.values for templating additional sources
-- name: dev
-- name: qa
+- name: my-apps1
+- name: my-apps2
+- name: my-apps3
+- name: my-apps4
+- name: my-apps5
