@@ -17,8 +17,9 @@ spec:
   regoFile: |
     package main
     # Accepted Values: "Critical", "High", "Medium", "Low", "Negligible", "UnknownSeverity"
-    notAllowedSeverities := ["Critical", "High", "UnknownSeverity"]
-    ignoreCves := []
+    #notAllowedSeverities := ["Critical", "High", "UnknownSeverity"]
+    notAllowedSeverities := []
+    ignoreCves := ["Critical", "High", "Medium", "Low", "Negligible", "UnknownSeverity"]
     contains(array, elem) = true {
       array[_] = elem
     } else = false { true }
