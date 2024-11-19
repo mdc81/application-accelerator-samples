@@ -19,10 +19,6 @@ spec:
   params:
     - name: source-url
     - name: source-revision
-  build:
-    env:
-      - name: BP_JVM_VERSION
-        value: 17
   tasks:
     - name: test
       params:
@@ -36,6 +32,6 @@ spec:
           - name: source-revision
         steps:
           - name: test
-            image: gradle
+            image: gradle:jdk17-corretto
             script: |-
               cd `mktemp -d`
