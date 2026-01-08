@@ -1,23 +1,13 @@
-#@ load("@ytt:data", "data")
-#@ def in_list(key, list):
-#@  return hasattr(data.values.tap_values, key) and (data.values.tap_values[key] in list)
-#@ end
-#! This if condition ensures that this Java Tekton pipeline is only created if the supply chain is testing or testing_scanning, and the TAP profile used is full, iterate or build.
-#@ if/end in_list('supply_chain', ['testing', 'testing_scanning']) and in_list('profile', ['full', 'iterate', 'build']):
----
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: tekton-pipeline-java
+  name: developer-defined-tekton-pipeline-java
   labels:
-    apps.tanzu.vmware.com/pipeline: test
-    apps.tanzu.vmware.com/has-tests: 'true'
-  annotations:
-    kapp.k14s.io/create-strategy: fallback-on-update
+    apps.tanzu.vmware.com/pipeline: test     # (!) required
 spec:
   params:
-    - name: source-url
-    - name: source-revision
+    - name: source-url                       # (!) required
+    - name: source-revision                  # (!) required
   tasks:
     - name: test
       params:
@@ -29,8 +19,18 @@ spec:
         params:
           - name: source-url
           - name: source-revision
+        stepTemplate:
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsUser: 1000
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
         steps:
           - name: test
-            image: gradle
+            image: tap-sm-docker-dev-local.dmz.packages.broadcom.com/projects-registry/tanzu_adv_eng/gradle@sha256:fdb628563dde15aebb58ea90d179247e8c24fd25df5f267db33a7250fbe9c8b8
             script: |-
               cd `mktemp -d`
