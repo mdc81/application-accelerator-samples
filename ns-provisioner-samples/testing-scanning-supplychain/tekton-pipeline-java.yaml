@@ -10,7 +10,7 @@ kind: Pipeline
 metadata:
   name: tekton-pipeline-java
   labels:
-    apps.tanzu.vmware.com/pipeline: test
+    apps.tanzu.vmware.com/pipeline: tests
   annotations:
     kapp.k14s.io/create-strategy: fallback-on-update
 spec:
